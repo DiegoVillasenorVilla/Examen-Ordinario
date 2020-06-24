@@ -27,21 +27,17 @@ function readFormData() //Leer datos de el formulario
    formData["birthdate"] = document.getElementById("birthdate").value;
    formData["correo"] = document.getElementById("correo").value;
    return formData;
+
 }
 
 
 
 function saveInlocalStorage()
 {
-    datosLS[contador]=formData;
-    for(dato in datosLS[contador])
-    {
-        
-        datosLS[contador][dato];
-    }
+    datosLS.push(formData);
    
     localStorage.setItem("MostrarDatos",JSON.stringify(datosLS));
-    contador++;
+    
 
 }
 
@@ -65,22 +61,21 @@ function Load()
 {
     btnCache.hidden = true;
     btnRegistro.hidden = false;
-    if(localStorage.getItem("MostrarDatos")!=null)
+    obtainlocalStorage(datosLS);
+    var storedList=localStorage.getItem("MostrarDatos")
+    if(storedList == null)
     {
-        data=JSON.parse(localStorage.getItem("MostrarDatos"))
-        insertNewRecord(data);
-        if(data==null ||data==undefined)
-        {
-            return insertNewRecord(data);
-        }
-        
+        datosLS = [];
+        console.log("El array esta vacio")
     }
     else
     {
-        console.log("No hay ningun dato cargado en el LocalStorage");
+        datosLS=JSON.parse(storedList);
+        console.log("Si hay datos");
+        return datosLS;
     }
+    
 }
-
 
 function insertNewRecord(data) //Insertar datos a la tabla principal
 {
